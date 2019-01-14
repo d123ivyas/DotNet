@@ -1,0 +1,107 @@
+	WORD STATICS
+
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    public string StringStatistics(string input1)
+    {
+        //Read only region end
+        //Write code here
+		string str="";
+		int a = 0,b=0;
+		string res="";
+		foreach(char c in input1){
+			if(char.IsLetter(c)){
+				b++;
+				str += c.ToString();
+			}
+			else 
+			{
+				a +=(int)c-48;
+				Console.WriteLine(a);
+			}
+		}
+		if(b==input1.Length||b==0)
+		{
+			return "ZERO";
+		}else return 	res = b.ToString()+str+a.ToString();
+		
+        //throw new NotImplementedException("Method  StringStatistics(string input1) not Implemented.");
+    }
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    public int weightOfString(string input1,int input2)
+    {
+        //Read only region end
+        //Write code here
+		input1 = input1.ToUpper();
+		int sum=0;
+		if(input2==0){
+			foreach(char c in input1)
+			{
+				if(char.IsLetter(c)){
+				if(c!='A' && c!='E' && c!='I' && c!='O' && c!='U')
+				{
+					sum += c -64;
+				}
+				
+			}
+				else
+				{
+					sum += 0;
+				}
+			}
+		}
+		if(input2==1){
+			foreach(char c in input1){
+				if(char.IsLetter(c)){
+					sum += c -64;
+				}
+				else{
+					sum += 0;
+				}
+			}
+			
+		}
+		return sum;
+        //throw new NotImplementedException("Method  weightOfString(string input1,int input2) not Implemented.");
+    }
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+CYCLIC DIGITS
+
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    public int sumOfSumsOfDigits(int input1)
+    {
+        //Read only region end
+        //Write code here
+		int i=0;
+		int sum=0,p=1;
+		int[] arr = new int[input1.ToString().Length];
+		while(input1!=0){
+			arr[i] = input1%10;
+			i++;
+			input1 /= 10;
+		}
+		Array.Reverse(arr);
+		foreach(int a in arr){
+			sum += a*p;
+			p++;
+		}
+		return sum;
+       // throw new NotImplementedException("Method  sumOfSumsOfDigits(int input1) not Implemented.");
+    }
+}
