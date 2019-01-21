@@ -1,0 +1,156 @@
+SECOND LAST DIGIT
+
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    public int secondLastDigitOf(int input1)
+    {
+        //Read only region end
+		input1=Math.Abs(input1);
+		int m=0;
+		int[] n=new int[input1.ToString().Length];
+		
+		int i=0;
+	
+			if(input1.ToString().Length==1)
+			{
+			m=-1;	
+			}
+		else 
+		{
+			while(input1!=0)
+		{
+			n[i]=input1%10;
+			i++;
+			input1/=10;
+		}
+			Array.Reverse(n);
+		m=n[n.Length-2];
+		}
+		
+		
+		
+		return m;
+    }
+}
+------------------------------------------------------------------------------------------------------------------------------
+SUM OF LAST DIGIT
+
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    public int addLastDigits(int input1,int input2)
+    {
+        //Read only region end
+       input1=Math.Abs(input1);
+		input2=Math.Abs(input2);
+		int m=input1%10;
+		int n=input2%10;
+		int c=m+n;
+		return c;
+		
+        
+    }
+}
+--------------------------------------------------------------------------------------------------------------------------------
+N AN EXACT MULTIPLE
+
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    public int isMultiple(int input1,int input2)
+    {
+        //Read only region end
+       
+			if(input1==0||input2==0)
+			{
+				return 3;
+			}
+			if(input1%input2==0)
+			{
+				return 2;
+			}
+			else
+			{
+				return 1;
+			}
+		
+        
+    }
+}
+****************************************************************************************************************************************
+
+TOKEN
+
+
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    public string findSequence(int input1,string[] input2,int[] input3)
+    {
+        //Read only region end
+        int[] n=new int[input1];	 
+		string s="";
+		int[] arr=new int[3];
+	 for(int i=0;i<input1;i++)
+	 {
+	n[i]=input3[i];	 
+	 }
+		Array.Sort(n);
+		
+		for(int j=0;j<input1-2;j++)
+		{
+			if(n[j]+1==n[j+1]&& n[j+1]+1==n[j+2])
+			{
+				arr[0]=n[j];
+			 
+			}
+				
+		}
+		if(arr[0]!=0)
+		{
+			arr[1]=arr[0]+1;
+		arr[2]=arr[1]+1;
+		 
+		for(int k=0;k<input1;k++)
+		{
+			if(arr[0]==input3[k])
+			{
+				s=s+input2[k]+":";
+			}
+		}
+		for(int k=0;k<input1;k++)
+		{
+			if(arr[1]==input3[k])
+			{
+				s=s+input2[k]+":";
+			}
+		}
+		for(int k=0;k<input1;k++)
+		{
+			if(arr[2]==input3[k])
+			{
+				s=s+input2[k];
+			}
+		}
+	 
+		return s;
+		}
+		else{
+			return "NONE";
+		}
+    }
+}
+	
