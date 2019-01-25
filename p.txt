@@ -1,0 +1,290 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProjectManagement
+{
+    public class ProjectUtility
+    {
+        public string GenerateProjectID(string strProjectName)
+        {
+            string id = "";
+            int count = 0;
+            string[] s = strProjectName.Split(' ');
+            foreach(string k in s)
+            {
+                count++;
+            }
+
+            if(count==1)
+            {
+                id = s[0].Substring(0, 3);
+                id = id.ToUpper();
+            }
+            if(count==2)
+            {
+                id = s[0].Substring(0, 1) + s[1].Substring(0,2);
+                id = id.ToUpper();
+
+            }
+            if(count==3)
+            {
+                id = s[0].Substring(0, 1) + s[1].Substring(0, 1) + s[2].Substring(0, 1);
+                id = id.ToUpper();
+            }
+
+            return id;
+            //throw new NotImplementedException();
+        }
+    }
+}
+
+***************************************************************************************************************************************************************
+
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProjectManagement
+{
+    public class ProjectData
+    {
+        const string ConnectionString = "Server=.;Initial Catalog=ProjectManagement;User ID=sa;Password=wipro@123";
+        public string AddProject(Project obj)
+        {
+            if (obj == null)
+                return null;
+            else
+            {
+                /*ProjectUtility pu = new ProjectUtility();
+                string pid = "";
+                pid = pu.GenerateProjectID(obj.ProjectName);
+                Random rand = new Random();
+                int random = rand.Next(100, 1000);
+                pid = pid + random.ToString();
+                obj.ProjectID = pid;
+                int duration = (obj.StartDate - obj.EndDate).Days;
+                obj.Duration = duration;
+
+                SqlConnection con = new SqlConnection(ConnectionString);
+                SqlCommand cmd = new SqlCommand("Insert into Projects(ProjectID,ProjectName,StartDate,EndDate,Duration) values(@pid,@pn,@sd,@ed,@dur)", con);
+                cmd.Parameters.AddWithValue("@pid", obj.ProjectID);
+                cmd.Parameters.AddWithValue("@pn", obj.ProjectName);
+                cmd.Parameters.AddWithValue("@sd", obj.StartDate);
+                cmd.Parameters.AddWithValue("@ed", obj.EndDate);
+                cmd.Parameters.AddWithValue("@dur", obj.Duration);
+                con.Open();
+                int row = cmd.ExecuteNonQuery();
+                con.Close();
+                if(row>1)
+                {
+                    return obj.ProjectID;
+                }
+                else
+                {
+                    return null;
+                }
+                */
+
+                ProjectUtility pu = new ProjectUtility();
+                string id = pu.GenerateProjectID(obj.ProjectName);
+                Random r = new Random();
+                id += r.Next(100, 1000);
+                obj.ProjectID = id;
+                int d = (obj.StartDate - obj.EndDate).Days;
+                obj.Duration = d;
+                string ap = "INSERT INTO PROJECTS VALUES ('" + obj.ProjectID + "','" + obj.ProjectName + "','" + obj.StartDate + "','" + obj.EndDate + "','" + obj.Duration + "')";
+                SqlConnection con = new SqlConnection(ConnectionString);
+                con.Open();
+                SqlCommand cmd = new SqlCommand(ap, con);
+                int i = cmd.ExecuteNonQuery();
+                con.Close();
+                if (i > 0)
+                    return obj.ProjectID;
+                else
+                    return null;
+            }
+        
+
+
+
+    
+
+
+    // throw new NotImplementedException();
+}
+
+        public Project GetProjctByID(string strProjectID)
+        {
+            
+            //throw new NotImplementedException();
+            
+            if (strProjectID == null || string.IsNullOrEmpty(strProjectID))
+            {
+                return null;
+            }
+            else
+            {
+                SqlConnection con = new SqlConnection(ConnectionString);
+                SqlCommand cmd = new SqlCommand("Select * from Projects where ProjectID=@PID", con);
+              
+                cmd.Parameters.AddWithValue("@PID", strProjectID);
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    dr.Read();
+                    Project p = new Project();
+                    p.ProjectID = dr["ProjectID"].ToString();
+                    p.ProjectName = dr["ProjectName"].ToString();
+                    p.StartDate = DateTime.Parse(dr["StartDate"].ToString());
+                    p.EndDate = DateTime.Parse(dr["EndDate"].ToString());
+                    p.Duration = int.Parse(dr["Duration"].ToString());
+                    con.Close();
+                    return p;
+                    
+                }
+                else
+                {
+                    return null;
+                    
+                }
+               
+            }
+
+        }
+
+        public int UpdateProject(Project obj)
+        {
+            //throw new NotImplementedException();
+            if(obj==null)
+            {
+                return -1;
+            }
+            else
+            {
+                SqlConnection con = new SqlConnection(ConnectionString);
+                SqlCommand cmd = new SqlCommand("Update Projects set ProjectID=@pid,ProjectName=@pn,StartDate=@sd,EndDate=@ed,Duration=@dur", con);
+                cmd.Parameters.AddWithValue("@pid", obj.ProjectID);
+                cmd.Parameters.AddWithValue("@pn", obj.ProjectName);
+                cmd.Parameters.AddWithValue("@sd", obj.StartDate);
+                cmd.Parameters.AddWithValue("@ed", obj.EndDate);
+                cmd.Parameters.AddWithValue("@dur", obj.Duration);
+                con.Open();
+                int row = cmd.ExecuteNonQuery();
+                con.Close();
+                if(row>0)
+                {
+                    return row;
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+
+
+
+
+        }
+
+        public int DeleteProject(string strProjectID)
+        {
+            // throw new NotImplementedException();
+            if (strProjectID == null || string.IsNullOrEmpty(strProjectID))
+            {
+                return -1;
+            }
+            else
+            {
+                SqlConnection con = new SqlConnection(ConnectionString);
+                SqlCommand cmd = new SqlCommand("Delete from Projects where ProjectID=@pid", con);
+                cmd.Parameters.AddWithValue("@pid", strProjectID);
+                con.Open();
+                int row = cmd.ExecuteNonQuery();
+                con.Close();
+                if (row > 0)
+                {
+                    return row;
+                }
+                else
+                {
+                    return 0;
+                }
+
+            }
+        }
+    }
+}
+
+
+*****************************************************************************************************************************************************************
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProjectManagement
+{
+    public class Project
+    {
+        // TODO: Write your code here.
+        public string ProjectID { get; set; }
+
+        public string ProjectName { get; set; }
+
+        public DateTime  StartDate { get; set; }
+
+       public int Duration { get; set; }
+
+       public DateTime EndDate { get; set; }
+
+        public Project()
+        {
+
+        }
+    }
+}
+
+
+****************************************************************************************************************************************************************
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ProjectManagement
+{
+    public class Project
+    {
+        // TODO: Write your code here.
+        public string ProjectID { get; set; }
+
+        public string ProjectName { get; set; }
+
+        public DateTime  StartDate { get; set; }
+
+       public int Duration { get; set; }
+
+       public DateTime EndDate { get; set; }
+
+        public Project()
+        {
+
+        }
+    }
+}
+
+
+*****************************************************************************************************************************************************************
+
