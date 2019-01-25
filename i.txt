@@ -1,0 +1,124 @@
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Text;
+namespace InventoryManagementSystem
+{
+    public class Product
+    {
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public string Description { get; set; }
+        public int Quantity { get; set; }
+        public int UnitPrice { get; set; }
+
+        string ConnectionString = "Data Source=.;Initial Catalog=ProductsDB;User ID=sa;Password=wipro@123";
+
+        public bool ADDProduct(Product obj)
+        {
+            bool is_added = false;
+            SqlConnection con = new SqlConnection(ConnectionString);
+            SqlCommand cmd = new SqlCommand("insert into Products(ProductName,Description,AvailableQuantity,UnitPrice)values(@pname,@descp,@quant,@up)", con);
+            cmd.Parameters.AddWithValue("pname", obj.ProductName);
+            cmd.Parameters.AddWithValue("descp", obj.Description);
+            cmd.Parameters.AddWithValue("quant", obj.Quantity);
+            cmd.Parameters.AddWithValue("up", obj.UnitPrice);
+            con.Open();
+            int row = cmd.ExecuteNonQuery();
+            con.Close();
+            if (row > 0)
+            {
+                is_added = true;
+            }
+            else is_added = false;
+            return is_added;
+        }
+
+
+        public bool ModifyProduct(Product obj)
+        {
+            bool is_modified = false;
+            SqlConnection con = new SqlConnection(ConnectionString);
+            SqlCommand cmd = new SqlCommand("update Products set ProductName=@pname,Description=@descp,AvailableQuantity=@quant,UnitPrice=@up where ProductID=@pid", con);
+            cmd.Parameters.AddWithValue("pname", obj.ProductName);
+            cmd.Parameters.AddWithValue("descp", obj.Description);
+            cmd.Parameters.AddWithValue("quant", obj.Quantity);
+            cmd.Parameters.AddWithValue("up", obj.UnitPrice);
+            cmd.Parameters.AddWithValue("@pid", obj.ProductID);
+            con.Open();
+            int row = cmd.ExecuteNonQuery();
+            con.Close();
+            if (row ==1)
+            {
+                is_modified = true;
+            }
+            else is_modified = false;
+            return is_modified;
+        }
+
+        public bool DeleteProduct(int productID)
+        {
+
+            bool is_modified = false;
+            SqlConnection con = new SqlConnection(ConnectionString);
+            SqlCommand cmd = new SqlCommand("delete from products where ProductID=@pid", con);
+            
+            cmd.Parameters.AddWithValue("@pid",productID);
+            con.Open();
+            int row = cmd.ExecuteNonQuery();
+            con.Close();
+            if (row == 1)
+            {
+                is_modified = true;
+            }
+            else is_modified = false;
+            return is_modified;
+        }
+
+
+        public Product ViewProduct(int productID)
+        {
+            Product p = null;
+            SqlConnection con = new SqlConnection(ConnectionString);
+            SqlCommand cmd = new SqlCommand("select * from products where ProductID=@pid", con);
+            cmd.Parameters.AddWithValue("@pid", productID);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if(dr.HasRows)
+            {
+                dr.Read();
+                p.ProductName = dr["ProductName"].ToString();
+                p.Quantity = int.Parse(dr["Quantity"].ToString());
+                p.Description= dr["Description"].ToString();
+                p.UnitPrice = int.Parse(dr["UnitPrice"].ToString());
+               
+            }
+            return p;
+
+        }
+
+
+        public List<Product> ViewAllProducts()
+        {
+            Product p = new Product();
+            List<Product> prod = new List<Product>();
+            SqlConnection con = new SqlConnection(ConnectionString);
+            SqlCommand cmd = new SqlCommand("select * from products ", con);
+            con.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.HasRows)
+            {
+                dr.Read();
+                
+                    p.ProductID = int.Parse(dr["ProductID"].ToString());
+                    p.ProductName = dr["ProductName"].ToString();
+                   // p.Quantity = int.Parse(dr["Quantity"].ToString());
+                    //p.Description = dr["Description"].ToString();
+                    p.UnitPrice = int.Parse(dr["UnitPrice"].ToString());
+                    prod.Add(p);
+            }
+            con.Close();
+            return prod;
+        }
+    }
+}
