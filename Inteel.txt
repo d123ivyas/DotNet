@@ -1,0 +1,146 @@
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    public string findSequence(int input1,string[] input2,int[] input3)
+    {
+        //Read only region end
+        int[]n=new int[input1];
+		string s="";
+		int[] arr=new int[3];
+		for(int i=0;i<input1;i++)
+		{
+			n[i]=input3[i];
+		}
+		Array.Sort(n);
+		for(int j=0;j<input1-2;j++)
+		{
+			if(n[j]+1==n[j+1] && n[j+1]+1==n[j+2])
+			{
+				arr[0]=n[j];
+			}
+		}
+		if(arr[0]!=0)
+		{
+			arr[1]=arr[0]+1;
+			arr[2]=arr[1]+1;
+			for(int k=0;k<input1;k++)
+			{
+				if(arr[0]==input3[k])
+				{
+					s=s+input2[k]+":";
+				}
+			}
+			for(int k=0;k<input1;k++)
+			{
+				if(arr[1]==input3[k])
+				{
+					s=s+input2[k]+":";
+				}
+			}
+			for(int k=0;k<input1;k++)
+			{
+				if(arr[2]==input3[k])
+				{
+					s=s+input2[k];
+				}
+			}
+			return s;
+		}
+		else
+		{
+			return "NONE";
+		}
+        
+    }
+}
+*************************************************************************************************************************
+using System.Linq;     
+int c=0,f=0,k=0;
+int key=0,addr=0,sum=0;
+for(int i=0;i<input2;i++)
+{
+if(input1[i]>0)
+
+{
+c++;
+}
+}
+if(c==input2)
+{
+sum=input1.Max();
+}
+else
+{
+while(f==0)
+{
+if(input1[j]>0)
+{
+f=0;
+}
+else
+{
+f=1;
+}
+if(input1[j>99)
+{
+addr=Math.Abs(input1[j]%100);
+key=Math.Abs(input1[j]%100);
+}
+else
+{
+addr=Math.Abs(input1[j]%10);
+key=Math.Abs(input1[j]%10);
+}
+j=addr;
+if(k%2==0)
+{
+sum+=key;
+}
+else
+{
+sum-=key;
+}
+k++;
+}
+}
+return sum;
+}
+}
+
+***************************************************************************************************************************
+string[] s=input1.Split(' ');
+string s1="",s2="",result="",ans="";
+for(int i=0;i<s.Length;i++)
+{
+char[] ch=s[i].ToCharArray();
+for(int j=0;j<ch.Length;j++)
+{
+if(j%2==0)
+{
+s1=s1+ch[j];
+}
+else
+{
+s2=s2+ch[j];
+}}
+if(input2==2)
+{
+ans=s1+s2;
+}
+else
+{
+char[] ch1=s2.ToCharArray();
+Array.Reverse(ch1);
+ans=s1+new string(ch1);
+}
+result+=ans+" ";
+ans="";
+s1="";
+s2="";
+}
+return result.Substring(0,result.Length-1);
+}
+}
