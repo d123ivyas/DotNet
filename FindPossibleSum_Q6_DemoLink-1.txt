@@ -1,0 +1,71 @@
+public int[] FindPossibleSum(int input1, int input2)
+        {
+            string s1 = input1.ToString();
+            int[] s = new int[s1.Length];
+            int o = 0;
+            while (input1 != 0)
+            {
+                s[o++] = input1 % 10;
+                input1 /= 10;
+            }
+            Array.Reverse(s);
+            int[] a = new int[100];
+            int c = 0;
+            int ck = 0;
+            for (int i = 0; i < s1.Length; i++)
+            {
+                for (int j = 0; j < s1.Length; j++)
+                {
+                    for (int k = j + 1; k < s1.Length; k++)
+                    {
+                        if (s[j] + s[k] == input2 && s[k] > 0)
+                        {
+                            ck++;
+                            a[c++] = int.Parse(s[j].ToString() + s[k].ToString());
+                        }
+                        for (int m = k + 1; m < s1.Length; m++)
+                        {
+                            if (s[j] + s[k] + s[m] == input2 && s[m] > 0)
+                            {
+                                ck++;
+                                a[c++] = int.Parse(s[j].ToString() + s[k].ToString() + s[m].ToString());
+                            }
+                            for (int n = m + 1; n < s1.Length; n++)
+                            {
+                                if (s[j] + s[k] + s[m] + s[n] == input2 && s[n] > 0)
+                                {
+                                    ck++;
+                                    a[c++] = int.Parse(s[j].ToString() + s[k].ToString() + s[m].ToString() + s[n].ToString());
+                                    for (int z = n + 1; z < s.Length; z++)
+                                    {
+                                        if (s[j] + s[k] + s[m] + s[n] + s[z] == input2 && s[z] > 0)
+                                        {
+                                            ck++;
+                                            a[c++] = int.Parse(s[j].ToString() + s[k].ToString() + s[m].ToString() + s[n].ToString() + s[z].ToString());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            int[] b = a.Distinct().ToArray();
+            Array.Sort(b);
+            for (int i = 0; i < b.Length - 1; i++)
+            {
+                b[i] = b[i + 1];
+            }
+            b = b.Distinct().ToArray();
+            int[] c1 = new int[1] { 0 };
+            if (input2 == 0)
+            {
+                return null;
+            }
+            if (ck > 0)
+                return b;
+            else
+                return (c1);
+        }
+    }
