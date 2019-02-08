@@ -160,6 +160,101 @@ Add_Prime no.
             Console.ReadKey();
 
 ---------------------------------------------------------------------------------
+Find The One Digit And Remove From Palindrome:                
+
+
+
+		int[] a=new int[10];
+		int temp=0,temp1=0,cnt=0,index=0,num=0,num1=0,b=0,sum=0;
+		num=input1;
+		num1=input1;
+		while(input1!=0)
+		{
+			temp=input1%10;
+			a[temp]=a[temp]+1;
+			input1=input1/10;
+		}
+		while(num!=0)
+		{
+			temp1=num%10;
+			sum=sum*10+temp1;
+			num=num/10;
+		}
+		for(int i=9;i>=0;i--)
+		{
+			if(a[i]==1)
+			{
+				cnt++;
+				index=i;
+				break;
+			}
+		}
+		if(cnt==1&&sum!=num1)
+		{
+			b=index;
+		}
+		else  if(sum==num1)
+		{
+			b=-1;
+		}
+		return b;
+
+=====================================================================
+
+Stable Unstable:
+            	
+
+
+		int [] a={input1,input2,input3,input4,input5};
+		int [] a1=new int[10];
+		int num,temp,dig=0,count=0,sum=0,sum1=0;
+		for(int i=0;i<a.Length;i++)
+		{
+			num=a[i];
+			while(num!=0)
+			{
+				temp=num%10;
+				a1[temp]=a1[temp]+1;
+				num=num/10;
+			}
+			for(int j=0;j<=9;j++)
+			{
+				if(a1[j]==0)
+				{
+					
+				}
+				else if(a1[j]!=0)
+				{
+					dig=a1[j];
+					break;
+				}
+			}
+			Console.WriteLine(dig);
+			for(int j=0;j<=9;j++)
+			{
+				if(a1[j]!=dig&&a1[j]!=0)
+				{
+					count++;
+					break;
+					
+				}
+			}
+			Console.WriteLine(count);
+			if(count==1)
+			{
+				sum=sum+a[i];
+			}
+			else 
+			{
+				sum1=sum1+a[i];
+			}
+			num=0;
+			dig=0;
+			count=0;
+			Array.Clear(a1,0,a1.Length);
+		}
+        return (sum1-sum);
+******************************************************************************
 Wipro test
 
 ==>20_mark
@@ -211,6 +306,35 @@ Wipro test
            Console.ReadKey();
 
 *******************************************************************************************************
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    public string FindPassword(string input1,string input2)
+    {
+        //Read only region end
+        //Write code here
+        string[] s=split(input1);
+		string[] s1=split(input2);
+		string res=s[2]+s1[1]+s[0];
+		return res;
+    }
+	string[] split(string i)
+	{
+		int q=i.Length/3;
+		int r=i.Length%3;
+		string[] arr=new string[3];
+		
+		arr[0]=i.Substring(q*0,q);
+		arr[1]=i.Substring(q*1,q+r);
+		arr[2]=i.Substring(2*q+r,q);
+		return arr;
+	}
+}
+
+**********************************************************************************
 Alternate add sub
 
 int r,n=input1,o=input2;
