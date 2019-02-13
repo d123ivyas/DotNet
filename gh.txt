@@ -101,3 +101,138 @@ public class UserMainCode
 		return sum;
 	}
 }
+**********************************************************************************
+--------------------longest odd sequence sum----------------
+
+
+        int sum=0;
+        int count =0,final=0,seq=0,curridx=0,maxidx=0;
+        for(int i=0;i<input2;i++)
+		{
+			if(input1[i]%2!=0)
+			{
+				count++;
+				if(count==1){
+					curridx=i;
+				}
+				if(count>=final){
+					maxidx=curridx;
+					
+					final = count;
+				}
+				if(i==input2-1){
+					seq++;
+				}
+			}
+			else{
+				if(count>1){
+					seq++;
+				}
+				count=0;
+			}
+			
+		}
+		Console.WriteLine(maxidx);
+		for(int i=maxidx;i<maxidx+final;i++)
+		{
+			sum+=input1[i];
+		}
+			Console.WriteLine(sum);
+		return 0;
+
+
+
+
+------------------Find result after alternate add_sub on  N--------------------------------------
+public int AddSub(int input1,int input2)
+{
+
+        int sum =input1;
+        if(input2==1)
+		{
+			for(int i=input1-1,j=0;i>0;i--,j++){
+				if(j%2==0){
+					sum -= i;
+				}
+				else{
+					sum +=i;
+				}
+			}
+		}
+		if(input2==2){
+		for(int i=input1-1,j=0;i>0;i--,j++){
+				if(j%2==0){
+					sum += i;
+				}
+				else{
+					sum -=i;
+				}
+			}
+		}
+		return sum;
+}
+
+******************************************************************************************
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace test
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] n = { 2, 4, 6, 8, 3, 5, 10, 8, 4,6,8};
+            int input2 = n.Length;int sum=0;
+            int count = 0,max=0,seq=0,curr_index=0,max_index=0;
+            for(int i=0;i<n.Length;i++)
+            {
+                if (n[i] % 2 == 0)
+                {
+                    count++;
+
+                    if (count == 1)
+
+                    {
+                        curr_index = i;
+                    }
+                        if (count >= max && count != 0)
+                    {
+                        max = count;
+                        max_index = curr_index;
+
+                    }
+                    if(i==input2-1)
+                    {
+                        seq++;
+                       
+                    }
+                }
+                else
+                {
+                    if (count >= 1)
+                    {
+                        seq++;
+                      
+
+                    }
+                    count = 0;
+                }
+               
+            }
+            for(int k=max_index;k<max_index+max;k++)
+            {
+                sum = sum + n[k];
+            }
+           // Console.WriteLine(seq);
+            //Console.WriteLine(max);
+            Console.WriteLine(sum);
+            Console.ReadKey();
+        }
+       
+    }
+
+}
