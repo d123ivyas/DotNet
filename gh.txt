@@ -1,3 +1,5 @@
+Sum of Stable- Unstable
+
 using System;
 using System.Collections.Generic;
 
@@ -59,6 +61,92 @@ public class UserMainCode
 
 
 **********************************************************************************************************
+(Stable Unstable(max-min)
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace abc
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] n = { 2277, 123, 4455, 1223, 223 };
+            int input2 = n.Length, temp = 0, num = 0, dig = 0, count = 0, stable = 0, unstable = 0, sum = 0;
+            int[] a = new int[10];
+            int[] s = new int[input2];
+            int s1 = 0, u1 = 0,min=0,max=0;
+            int[] u = new int[input2];
+            for (int i = 0; i < input2; i++)
+            {
+                num = n[i];
+                while (num != 0)
+                {
+                    temp = num % 10;
+                    a[temp] = a[temp] + 1;
+                    num = num / 10;
+                }
+                for (int j = 0; j < a.Length; j++)
+                {
+                    if (a[j] != 0)
+                    {
+                        dig = a[j];
+                        break;
+                    }
+                }
+                for (int j = 0; j < a.Length; j++)
+                {
+                    if (a[j] != 0 && a[j] != dig)
+                    {
+                        count++;
+                        break;
+                    }
+                }
+                if (count == 1)
+                {
+                    u[u1] = n[i];
+                    u1++;
+                   }
+
+                else
+                {
+                    s[s1++]= n[i];
+
+
+                    
+                }
+               
+                Array.Clear(a, 0, a.Length);
+                num = 0;
+                count = 0;
+                dig = 0;
+
+            }
+
+            max = s.Max();
+
+            min = u[0];
+            for(int m=0;m<u.Length;m++)
+            {
+                if(min>u[m] && u[m]!=0)
+                {
+                    min = u[m];
+                }
+            }
+            sum = max - min;
+       Console.WriteLine(sum);
+            Console.ReadKey();
+        }
+    }
+}
+
+************************************************************************************************************
+Sum Of Non Prime Index Values
+
 using System;
 using System.Collections.Generic;
 
@@ -102,7 +190,49 @@ public class UserMainCode
 	}
 }
 **********************************************************************************
---------------------longest odd sequence sum----------------
+Sum Of Prime Index Values
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace abc
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] n = {2,3,4,5,6,7,8,9,23};
+            int input2 = n.Length,sum=0,count=0;
+            for(int i=1;i<input2;i++)
+            {
+                for(int j=1;j<=i;j++)
+                {
+                    if(i%j==0)
+                    {
+                        count++;
+                    }
+                }
+                if(count==2 )
+                {
+                    sum = sum + n[i];
+                }
+
+                count = 0;
+            }
+            
+
+            Console.WriteLine(sum);
+            Console.ReadKey(); 
+        }
+    }
+}
+
+
+**************************************************************************************
+--------------------sum of longest odd sequence ----------------
 
 
         int sum=0;
@@ -173,6 +303,8 @@ public int AddSub(int input1,int input2)
 }
 
 ******************************************************************************************
+Sum Of Longest Even Sequence
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -235,4 +367,109 @@ namespace test
        
     }
 
+}
+
+**********************************************************************************************
+Decreasing Sequence
+
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    //Assume following return types while writing the code for this question. 
+    public class Result
+    {
+		public int output1;
+		public int output2;
+    }
+
+    public Result decreasingSeq(int[] input1,int input2)
+    {
+        //Read only region end
+     int count=1,seq=0,max=0;
+		for(int i=0;i<input2-1;i++)
+	 {
+		 if(input1[i]>input1[i+1])
+		 {
+			 count++;
+			 if(count>max )
+			 {
+				 max=count;
+			 }
+			 if(i==input2-2)
+			 {
+				 seq++;
+			 }
+		 }
+		 else
+		 {
+			 if(count>1)
+			 {
+				 seq++;
+			 }
+			 count=1;
+		 }
+	 }
+	
+		Result r=new Result();
+		r.output1=seq;
+		r.output2=max;
+		return r;
+	}
+}
+
+**************************************************************************************************
+Unit Digit Count
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace abc
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = 1279;
+            int rem = 0, sum = 0,i=0,sum1=0,unit=0,tens=0,unit1=0,tens1=0,finalsum=0,sum2=0;
+            int[] a= new int[n.ToString().Length];
+           while(n!=0)
+            {
+                a[i] = n % 10;
+                i++;
+                n /= 10;
+
+
+            }
+            for(int j=0;j<a.Length;j++)
+            {
+                sum += a[j];
+            }
+            finalsum = sum;
+            if(sum>9)
+            {
+                unit = sum % 10;
+                tens = sum / 10;
+
+                sum1 = unit + tens;
+                finalsum = sum1;
+            }
+            if(sum1>9)
+            {
+                unit1 = sum1 % 10;
+                tens1 = sum1 / 10;
+                sum2 = unit1 + tens1;
+                finalsum = sum2;
+            }
+
+            
+            Console.WriteLine(finalsum);
+            Console.ReadKey();
+        }
+    }
 }
