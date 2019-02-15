@@ -553,3 +553,41 @@ namespace abc
         }
     }
 }
+
+*********************************************************************************************************
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    public int mostFrequentlyOccurringDigit(int[] input1,int input2)
+    {
+        //Read only region end
+        int[] a=new int[10];
+		int num=0,count=0,temp=0,max=0,index=0;
+		for(int i=0;i<input2;i++)
+		{
+			num=input1[i];
+			while(num!=0)
+			{
+				temp=num%10;
+				a[temp]=a[temp]+1;
+				num/=10;
+			}
+		}
+max=a[0];
+		for(int j=0;j<a.Length;j++)
+		{
+			if(a[j]>=max)
+			{
+				max=a[j];
+				index=j;
+			}
+		}
+		return index;
+        
+    }
+}
+
+
