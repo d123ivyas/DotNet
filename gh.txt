@@ -370,6 +370,86 @@ namespace test
 }
 
 **********************************************************************************************
+Same sequence sum
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace same_seq_sum
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int[] n = { 2, 4, 6, 3, 2, 4, 6 ,5,9,2,4,6};
+            int len = n.Length;
+            int sum = 0;
+            int count = 0, max = 0, curr_ind = 0, max_ind = 0,count1=0,last_index=0;
+            for(int i=0;i<len;i++)
+            {
+                if(n[i]%2==0) //if even than count increment
+                {
+                    count++;
+                    
+                }
+                else //if it got odd than in else part
+                {
+                    if(count>max) 
+                    {
+                        max = count;
+                    }
+                    count = 0;
+                }
+            }
+            if(count>max)///to check last longest length
+            {
+                max = count;
+            }
+
+            
+            for(int i=0;i<n.Length;i++)
+            {
+                if(n[i]%2==0)
+                {
+                    count1++;
+                    if(count1==1)
+                    {
+                        curr_ind = i;
+                    }
+                    last_index = i;
+                    
+                }
+                else                 ///TO FIND THE SUM OF LONGEST LENGHT OF AN ARRAY
+                {
+                    
+                    if(count1==max)
+                    {
+                        for (int j = curr_ind; j <= last_index; j++)
+                        {
+                            sum += n[j];  
+                        }
+                    }
+                    count1 = 0;
+                }
+            }
+            if (count1 == max)
+            {
+                for (int j = curr_ind; j <= last_index; j++)///if Length of two seqence is same
+                {
+                    sum += n[j];
+                }
+            }
+            Console.WriteLine(max);
+            Console.WriteLine(sum);
+            Console.ReadKey();
+        }
+    }
+}
+
+**********************************************************************************************
 Decreasing Sequence
 
 using System;
