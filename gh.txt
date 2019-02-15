@@ -629,4 +629,70 @@ public class UserMainCode
 		
        
     }
+***************************************************************************************************************
+even odd and zero
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace hjbnh
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int n = 20321;
+            int[] arr = new int[n.ToString().Length];
+            int i = 0;
+            string s = "";
+            if (n > 0)
+            {
+                s = s + "P";
+            }
+            else
+            {
+
+                s = s + "N";
+            }
+
+            while (n!=0)
+            {
+                arr[i] = n % 10;
+                i++;
+                n /= 10;
+
+            }
+            Array.Reverse(arr);
+            
+          
+            for (int j = 0; j < arr.Length; j++)
+            {
+                if (arr[j] % 2 == 0)
+                {
+
+                    if (arr[j] == 0)
+                    {
+                        s = s + "Z";
+                    }
+                    else
+                    {
+                        s = s + "E";
+                    } 
+                   
+                }
+                else
+                {
+                    s = s + "O";
+                }
+            }
+          Console.WriteLine(s);
+            Console.ReadKey();
+        }
+          
+        }
+    }
+
 
