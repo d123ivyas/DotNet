@@ -699,5 +699,57 @@ namespace hjbnh
         }
     }
 
+*************************************************************************************************************
+res
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace hjbnh
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            int n = 1786,sub=0,unit=0,final=0,sum=0,res=0;
+            while (n > 9)
+            {
+                int[] a = new int[n.ToString().Length];
+                int[] m = new int[(n.ToString().Length) - 1];
+               
+                int i = 0;
+                int temp = n;
+
+      
+
+                while (temp != 0)
+                {
+                    a[i] = temp % 10;
+                    i++;
+                    temp /= 10;
+                }
+
+
+                Array.Reverse(a);
+                for (int j = 0; j < a.Length - 1; j++)
+                {
+                    m[j] = Math.Abs(a[j] - a[j + 1]);
+                    temp = temp * 10 + m[j];
+
+                }
+
+                n = temp;
+            }
+            Console.WriteLine(n);
+            Console.ReadKey();
+        }
+          
+        }
+    }
+
 
 
