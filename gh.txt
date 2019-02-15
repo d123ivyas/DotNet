@@ -555,6 +555,8 @@ namespace abc
 }
 
 *********************************************************************************************************
+Most Frequent occurring Digit
+
 using System;
 using System.Collections.Generic;
 
@@ -590,4 +592,41 @@ max=a[0];
     }
 }
 
+***************************************************************************************************************
+Encoded Array
+
+using System;
+using System.Collections.Generic;
+
+//Read only region start
+public class UserMainCode
+{
+    //Assume following return types while writing the code for this question. 
+    public class Result
+    {
+		public int output1;
+		public int output2;
+    }
+
+    public Result findOriginalFirstAndSum(int[] input1,int input2)
+    {
+        //Read only region end
+        //Write code here
+	int first=0,sum=0;
+		first=input1[input2-1];
+		sum=input1[input2-1];
+		for(int i=input2-2;i>=0;i--)
+		{
+			first=input1[i]-first;
+			sum=sum+first;
+		}
+		 Result ob=new Result();
+		ob.output1=first;
+		ob.output2=sum;
+		return ob;
+		}
+	
+		
+       
+    }
 
