@@ -1,0 +1,726 @@
+1.BUS MANAGEMENT CPC-----------------------------------------------------------------------
+
+		using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BusManagement
+{
+    public class Bus : Vehicle
+    {
+        public  string BusID { set; get; }
+        public  string BusName { set; get; }
+        public int ServiceNumber { set; get; }
+        public string ReservationClass { set; get; }
+        public  double TicketPrice { set; get; }
+        public Bus() : base()
+        {
+
+        }
+        public Bus(string Source,string Destination,int Distance,int Duration,string BusID,string BusName,int ServiceNumber,string ReservationClass,double TicketPrice)
+        {
+            this.Source = Source;
+            this.Destination = Destination;
+            this.Distance = Distance;
+            this.Duration = Duration;
+            this.BusID = BusID;
+            this.BusName = BusName;
+            this.ServiceNumber = ServiceNumber;
+            this.ReservationClass = ReservationClass;
+            this.TicketPrice = TicketPrice;
+        }
+    }
+
+}
+--------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BusManagement
+{
+    public class BusData
+    {
+        public List<Bus> BusList { get; set; }
+
+        public BusData()
+        {
+            BusList = new List<Bus>();
+        }
+
+        public string AddBus(Bus objBus)
+        {
+            
+            if (objBus==null)
+            {
+                return null;
+
+            }
+            else
+            {
+                Utility.BusUtility obj1 = new Utility.BusUtility();
+                objBus.BusID = obj1.GenerateBusID(objBus.Source, objBus.Destination, objBus.ServiceNumber);
+                objBus.BusName = obj1.GenerateBusName(objBus.Source, objBus.Destination);
+                objBus.TicketPrice = obj1.FindTicketPrice(objBus.Distance, objBus.ReservationClass);
+                BusList.Add(objBus);
+
+            }
+            return objBus.BusID;
+        }
+    }
+}
+-----------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BusManagement.Utility
+{
+    public class BusUtility
+    {
+        public string GenerateBusID(string Source, string Destination, int ServiceNumber)
+        {
+            string BusId = string.Empty;
+            string str = string.Empty;
+            if(ServiceNumber>=100)
+            {
+                str = ServiceNumber.ToString();
+            }
+            else if(ServiceNumber<100&&ServiceNumber>10)
+            {
+                str = "0" + ServiceNumber.ToString();
+            }
+            else
+            {
+                str = "00" + ServiceNumber.ToString();
+            }
+            BusId += Source.Substring(0, 1).ToUpper();
+            BusId += Destination.Substring(0, 1).ToUpper();
+            BusId += "-";
+            BusId += str;
+            return BusId;
+        }
+
+        public string GenerateBusName(string Source, string Destination)
+        {
+          
+            string busname = string.Empty;
+            busname += Source.Substring(0, 1).ToUpper();
+            busname += Source.Substring(1, 1).ToLower();
+            busname += Source.Substring(2, 1).ToUpper();
+            busname += "-";
+            busname += Destination.Substring(0, 1).ToUpper();
+            busname += Destination.Substring(1, 1).ToLower();
+            busname += Destination.Substring(2, 1).ToUpper();
+            return busname;
+        }
+
+        public double FindTicketPrice(int Distance, string ReservationClass)
+        {
+            double price = 0.0;
+            if(string.Compare(ReservationClass,"AC")==0)
+            {
+                price = Distance * 3.5;
+            }
+            else
+            {
+                price = Distance * 2;
+            }
+            return price; 
+        }
+    }
+}
+-------------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BusManagement
+{
+    public class Vehicle
+    {
+         public string Source { set; get; }
+         public string Destination { set; get; }
+         public int Distance { set; get; }
+         public  int Duration { set; get; }
+        public Vehicle()
+        {
+
+        }
+        public Vehicle(string Source,string Destination,int Distance,int Duration )
+        {
+            this.Source = Source;
+            this.Destination = Destination;
+            this.Distance = Distance;
+            this.Duration = Duration;
+        }
+    }
+   
+
+}
+-----------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BusManagement
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {            
+
+        }
+    }
+}
+
+            
+ 2.INTERNET BANKING----------------------------------------------------------------------------------
+ 
+ 
+ 		using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace InternetBanking
+{
+    public class UserDetail
+    {
+        //TODO: Write your Code Here.
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime DOB { get; set; }
+        public string MaritalStatus { get; set; }
+        public string Gender { get; set; }
+        public string FatherName { get; set; }
+    }
+
+}
+-------------------------------------------------------------------
+Program.cs
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace InternetBanking
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            //InternetBankingInfo obj1 = new InternetBankingInfo("john","smith","06/21/1999","male","single","marx");
+            BankingData obj = new BankingData();
+            obj.AddBankingInfo(new InternetBankingInfo("john", "smith", "06/21/1999", "male", "single", "marx"));
+
+           // Console.ReadKey();
+        }
+    }
+}
+--------------------------------------------------------
+InternetBankingInfo
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace InternetBanking
+{
+    public class InternetBankingInfo : UserDetail
+    {
+        // TODO : Write your code Here.
+        public string UserID { get; set; }
+        public InternetBankingInfo(string firstname, string lastname, string dob, string gender, string maritalstatus, string fathername)
+        {
+            this.FirstName = firstname;
+            this.LastName = lastname;
+            this.DOB = Convert.ToDateTime(dob);
+            this.Gender = gender;
+            this.MaritalStatus = maritalstatus;
+            this.FatherName = fathername;
+        }
+    }
+}
+------------------------------------------------------------------
+BankingUtility
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace InternetBanking.Utility
+{
+    public class BankingUtility
+    {
+        public string GenerateUserID(InternetBankingInfo obj)
+        {
+            string userId = "",outputUserid="";
+            string firstname = obj.FirstName.Trim();
+            string lastname = obj.LastName.Trim();
+            userId = firstname.Substring(0, 2).ToUpper() + lastname.Substring(2, 2).ToUpper() + (firstname.Length + lastname.Length).ToString();
+            //string month = obj.DOB.Month.ToString();
+            string month = obj.DOB.ToLongDateString();
+            string[] monthstring = month.Split(' ');
+            string monthChar = monthstring[1];
+            //Console.WriteLine("month: " + month);
+            int len = obj.FatherName.Length;
+            userId += monthChar[0].ToString()+obj.FatherName[0].ToString().ToUpper()+ obj.FatherName[len-1].ToString().ToUpper();
+            char[] output = userId.ToCharArray();
+            Array.Reverse(output);
+            for(int i = 0; i < output.Length; i++)
+            {
+                outputUserid += output[i].ToString();
+            }
+            return outputUserid;
+        }
+
+    }
+}
+-----------------------------------------------------------------
+BankingData
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace InternetBanking
+{
+    public class BankingData
+    {
+       public List<InternetBankingInfo> BankingUserList { get; set; }
+        public BankingData()
+        {
+            BankingUserList = new List<InternetBankingInfo>(); 
+        }
+
+        public string AddBankingInfo(InternetBankingInfo obj)
+        {
+            if (obj == null) return null;
+
+            Utility.BankingUtility objBankingUtility = new Utility.BankingUtility();
+            obj.UserID = objBankingUtility.GenerateUserID(obj);
+
+            BankingUserList.Add(obj);
+            return obj.UserID;
+        }
+        public InternetBankingInfo SearchBankingInfo(string strUserID)
+        {
+            InternetBankingInfo result = null;
+            if (strUserID == null) return null;
+
+            for(int i = 0; i < BankingUserList.Count; i++)
+            {
+                if (BankingUserList[i].UserID == strUserID)
+                {
+                    result = BankingUserList[i];
+                    break;
+                }
+            }
+            return result;
+        }
+
+    }
+}
+
+3.TELEPHONE BILLING------------------------------------------------------------------------------
+
+	1.BILLING.CS
+	
+namespace TelephoneBilling
+{
+    public class BillingData
+    {
+        public List<Bill> Bills { get; set; }
+
+        public BillingData()
+        {
+            Bills = new List<Bill>();
+        }
+
+        public bool GenerateBill(Bill obj)
+        {
+            bool isadded = false;
+            if (obj == null)
+            {
+                return false;
+            }
+            else
+            {
+                Random ran = new Random();
+                obj.BillingID = ran.Next();
+
+                Utility.BillingUtility bilUti = new Utility.BillingUtility();
+                obj.TotalAmount = bilUti.CalculateBill(obj.Units, obj.OutstandingAmount);
+                Bills.Add(obj);
+                isadded = true;
+
+            }
+            return isadded;
+     
+        }
+
+        public Bill SearchBill(int intBillingID)
+        {
+            Bill bill = new Bill();
+            bill = null;
+            if (intBillingID <= 0)
+            {
+                return null;
+            }
+            else
+            {
+                for(int i = 0; i < Bills.Count; i++)
+                {
+                    if (Bills[i].BillingID == intBillingID)
+                    {
+                        bill = Bills[i];
+                    }
+                }
+            }
+            return bill;
+        }
+
+        public bool UpdateBill(Bill obj)
+        {
+            bool isupdated = false;
+            if (obj == null)
+            {
+                return false;
+            }
+            else
+            {
+                for(int i = 0; i < Bills.Count; i++)
+                {
+                    if (Bills[i].BillingID == obj.BillingID)
+                    {
+                        Utility.BillingUtility bilUti = new Utility.BillingUtility();
+                        obj.TotalAmount = bilUti.CalculateBill(obj.Units, obj.OutstandingAmount);
+                        obj.BillingDate = DateTime.Now;
+                        Bills[i] = obj;
+                        isupdated = true;
+
+                    }
+                }
+            }
+            return isupdated
+        }
+        
+    }
+}
+
+    2.BILLINGUTILITY.CS
+    
+namespace TelephoneBilling.Utility
+{
+    public class BillingUtility
+    {
+        public decimal CalculateBill(int intNumberOfUnits, decimal decOutStandingAmount = 0.0m)
+        {
+            decimal chargeUnit = 0;
+            decimal total = 0;
+            try
+            {
+                if (intNumberOfUnits < 0)
+                {
+                    throw new TelephoneBilling.Exceptions.InvalidUnitsException("write msg given in question");
+                }
+                else
+                {
+                    if (intNumberOfUnits <= 250)
+                    {
+                        chargeUnit = 1.50m;
+                    }
+                    else if(intNumberOfUnits >= 251 && intNumberOfUnits <= 500)
+                    {
+                        chargeUnit = 2.50m;
+                    }
+                    else if (intNumberOfUnits > 500)
+                    {
+                        chargeUnit = 4.00m;
+                    }
+                    total = (intNumberOfUnits * chargeUnit) + 200 + decOutStandingAmount;
+                }
+            }
+            catch(TelephoneBilling.Exceptions.InvalidUnitsException e)
+            {
+                throw e;
+            }
+            return total;
+        }
+    }
+    
+}
+
+4.VOTER-------------------------------------------------------------------------------------------
+
+	VOTER MANAGEMENT.CS--------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+namespace VoterEntry
+{
+    public class VoterManagement
+    {
+        List<Voter> list = new List<Voter>();
+        public VoterManagement()
+        {
+           
+        }
+
+        public string AddVoter(Voter obj)
+        {
+            if (obj != null)
+            {
+                Utility.VoterUtility vu = new Utility.VoterUtility();
+                obj.VoterID = vu.GenerateVoterID(obj.FirstName, obj.LastName, obj.DateofBirth);
+                int a = DateTime.Now.Subtract(obj.DateofBirth).Days / 365;
+                if (a < 18)
+                {
+                    throw new VoterEntry.Exceptions.AgeException("Age shouldn't be less than 18");
+                }
+                else
+                {
+                    obj.Age = a;
+                }
+                list.Add(obj);
+                return obj.VoterID;
+            }
+            else return null;
+        }
+
+        public bool ModifyVoter(Voter obj)
+        {
+            bool t = false;
+            if (obj != null)
+            {
+                Utility.VoterUtility vu = new Utility.VoterUtility();
+                obj.VoterID = vu.GenerateVoterID(obj.FirstName, obj.LastName, obj.DateofBirth);
+                int a = DateTime.Now.Subtract(obj.DateofBirth).Days / 365;
+                if (a < 18)
+                {
+                    throw new VoterEntry.Exceptions.AgeException("Age shouldn't be less than 18");
+                }
+                else
+                {
+                    obj.Age = a;
+                }
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (obj.VoterID == list[i].VoterID)
+                    {
+                        list[i] = obj;
+                       t= true;
+                    }
+                }
+            }
+            return t;
+        }
+
+        public Voter SearchVoter(string strVoterID)
+        {
+            Voter o = null;
+            if (strVoterID != null)
+            {
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (strVoterID == list[i].VoterID)
+                    {
+                      o=  list[i] ;
+                        
+                    }
+                }
+            }
+            return o;
+        }
+
+        public bool DeleteVoter(string strVoterID)
+        {
+            bool b = false; 
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (strVoterID == list[i].VoterID)
+                {
+                    list.RemoveAt(i);
+                    b = true;
+                }
+            }
+            return b;.
+
+        }
+
+        public List<Voter> GetVoterList()
+        {
+            return list;
+        }
+    }
+}
+
+VOTER UTILITY.CS-----------------------------------------------------------------------------------------
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace VoterEntry.Utility
+{
+    public class VoterUtility
+    {
+        public string GenerateVoterID(string strFirstName, string strLastName, DateTime dtDateofBirth)
+        {
+          return  strFirstName[0].ToString() + strLastName[0].ToString() + dtDateofBirth.DayOfWeek.ToString()[0] + strFirstName.Length.ToString() + strLastName.Length.ToString() + sum(dtDateofBirth.Month) + sum(dtDateofBirth.Day) + sum(dtDateofBirth.Year);
+
+        }
+        public string sum(int i)
+        {
+           
+            int s = 0;
+            while (i > 0)
+            {
+               s=s+ ( i % 10);
+                i = i / 10; 
+            }
+            return s.ToString();       
+        }       
+    }
+}
+
+5.EEMPLOYEE MANAGEMENT---------------------------------------------------------------------------------------
+
+	EMPLOYEEUTILITY.CS
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EmployeeManagement.Utility
+{
+    public class EmployeeUtility
+    {
+        public void GenerateUserName(Employee obj,int EmployeeCount)
+        {
+            obj.UserID= ((char)(obj.FirstName[0] + obj.FirstName.Length)).ToString() + ((char)(obj.LastName[0] + obj.LastName.Length)).ToString() + SumDigits(obj.BirthYear).ToString() + SumDigits(obj.BirthMonth).ToString() + SumDigits(obj.BirthDay).ToString() + EmployeeCount.ToString();
+       }
+
+        public string SumDigits(int value)
+        {
+            int sum = 0;
+            while (value > 0)
+            {
+                sum += value % 10;
+                value = value / 10;
+            }
+            return sum.ToString();
+        }
+    }
+}
+
+
+EMPLOYEEDATA.CS------------------------------------------------------------------------------------------------------
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EmployeeManagement
+{
+    public class EmployeeData
+    {
+
+        List<Employee> emp = new List<Employee>();
+        public EmployeeData()
+        {
+            // TODO: Write your code here.
+        }
+        public string AddEmployee(Employee obj)
+        {
+            if (obj != null)
+            {
+                Utility.EmployeeUtility ue = new Utility.EmployeeUtility();
+                ue.GenerateUserName(obj, emp.Count + 1);
+                emp.Add(obj);
+                return obj.UserID;
+            }
+            else return null;
+
+        }
+
+        public bool ModifyEmployee(Employee obj)
+        {
+            bool b = false;
+            if (obj != null)
+            {
+                for(int i = 0; i < emp.Count; i++)
+                {
+                    if (emp[i].UserID == obj.UserID)
+                    {
+                        emp[i] = obj;
+                        b = true;
+                    }
+                }
+            }
+             return b;
+        }
+
+        public Employee SearchEmployee(string strUserID)
+        {
+            Employee e = null;
+            if (strUserID != null)
+            {
+                for (int i = 0; i < emp.Count; i++)
+                {
+                    if (emp[i].UserID == strUserID)
+                    {
+                        e = emp[i];
+                    }
+                }
+            }
+            return e;
+        }
+
+        public bool DeleteEmployee(string strUserID)
+        {
+            bool b = false;
+            if (strUserID != null)
+            {
+                for (int i = 0; i < emp.Count; i++)
+                {
+                    if (emp[i].UserID == strUserID)
+                    {
+                        emp.RemoveAt(i);
+                        b = true;
+                    }
+                }
+            }
+            return b;
+        }
+    }
+}
