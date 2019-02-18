@@ -183,6 +183,428 @@ namespace BusManagement
         }
     }
 }
+*************************************************************************************************
+telephone omkar
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TelephoneBilling.Utility;
+using TelephoneBilling.Exceptions;
+namespace TelephoneBilling
+{
+    public class BillingData
+    {
+        public Bill b { get; set; }
+        public List<Bill> Bills { get; set; }        
+        BillingUtility billUtil;
+       
+        public BillingData()
+        {
+            Bills = new List<Bill>();
+        }
+
+        public bool GenerateBill(Bill obj)
+        {
+            int random1 = 0;
+            bool IsBillGenerated = false;
+            if(obj==null)
+            {
+                IsBillGenerated = false;
+            }
+            else if (obj != null)
+            {
+                Random random = new Random();
+                random1=random.Next();
+                obj.BillingID = random1;
+                 billUtil= new BillingUtility();
+                if (obj.Units < 0)
+                {
+                    try
+                    {
+                        throw new InvalidUnitsException("Invalid units. Billable units should be more than or equal to zero (0).");
+                    }catch(Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+                else if(obj.Units >= 0)
+                {
+                    obj.TotalAmount = billUtil.CalculateBill(obj.Units, obj.OutstandingAmount);
+                    Bills.Add(obj);
+                    IsBillGenerated = true;
+                }
+                
+            }
+
+            return IsBillGenerated;
+        }
+
+        public Bill SearchBill(int intBillingID)
+        {
+            b = null;
+            if (intBillingID <= 0)
+            {
+               b = null;
+            }
+               
+
+            else
+            {
+                for(int i=0;i<Bills.Count;i++)
+                {
+                    if (intBillingID == Bills[i].BillingID)
+                    {
+                        b = Bills[i];
+                        break;
+                    }
+                    else
+                    {
+                       b = null;
+                    }
+                        
+                }
+            }
+            return b;
+        }
+
+        public bool UpdateBill(Bill obj)
+        {
+            bool IsUpdated=false;
+            if(obj==null)
+            {
+                IsUpdated = false;
+            }
+            else
+            {
+                for(int i=0;i<Bills.Count;i++)
+                {
+                    if(Bills[i].BillingID==obj.BillingID)
+                    {
+                        obj.TotalAmount=billUtil.CalculateBill(obj.Units,obj.OutstandingAmount);
+                        obj.BillingDate = DateTime.Now;
+                        Bills[i] = obj;
+                        IsUpdated = true;
+                    }
+                }
+            }
+            return IsUpdated;
+        }
+       
+    }
+}
+
+*********************************************************************************************
+    using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TelephoneBilling.Utility
+{
+    public class BillingUtility
+    {
+        decimal Charge_Per_Unit = 0.0m, BillAbleAmount = 0.0m;
+        int FixedCharge = 200;
+        decimal TotalAmount = 0.0m;
+        public decimal CalculateBill(int intNumberOfUnits, decimal decOutstandingAmount = 0.0m)
+        {
+            if (intNumberOfUnits >= 0 && intNumberOfUnits <= 250)
+                Charge_Per_Unit = 1.50m;
+
+            if (intNumberOfUnits >= 251 && intNumberOfUnits <= 500)
+                Charge_Per_Unit = 2.50m;
+
+            if (intNumberOfUnits >= 501)
+                Charge_Per_Unit = 4.00m;
+
+            BillAbleAmount = intNumberOfUnits * Charge_Per_Unit;
+            TotalAmount = BillAbleAmount + FixedCharge + decOutstandingAmount;
+
+            return TotalAmount;
+
+        }
+    }
+}
+
+***************************************************************************************
+
+
+
+    using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TelephoneBilling;
+namespace TelephoneBilling
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Bill bill = new Bill();
+            BillingData billData = new BillingData();
+            billData.GenerateBill(bill);
+            billData.SearchBill(bill.BillingID);
+
+        }
+    }
+}
+
+****************************************************************************************************
+telephone m
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TelephoneBilling
+{
+    public class BillingData
+    {
+        public List<Bill> num { get; set; }
+        public BillingData()
+        {
+            num = new List<Bill>();
+        }
+
+       
+
+        public bool GenerateBill(Bill obj)
+        {
+            bool b = false;
+            if(obj== null)
+            {
+                b = false;
+            }
+            else
+            {
+                Random ran = new Random();
+                obj.BillingID = ran.Next();
+
+                Utility.BillingUtility obj1 = new Utility.BillingUtility();
+                obj.TotalAmount = obj1.CalculateBill(obj.Units, obj.OutstandingAmount);
+                num.Add(obj);
+                b = true;
+            }
+            return b;
+        }
+
+        public Bill SearchBill(int intBillingID)
+        {
+            Bill b1 = new Bill();
+            b1 = null;
+            if(intBillingID<=0)
+            {
+                b1 = null;
+            }
+            else
+            {
+                for(int i=0;i<num.Count;i++)
+                {
+                    if(num[i].BillingID==intBillingID)
+                    {
+                        b1 = num[i];
+                    }
+                }
+            }
+            return b1;
+
+        }
+
+        public bool UpdateBill(Bill obj)
+        {
+            bool a = false;
+            if(obj==null)
+            {
+                a = false;
+            }
+            else
+            {
+               for(int i=0;i<num.Count;i++)
+                {
+                    if(num[i].BillingID==obj.BillingID)
+                    {
+                        Utility.BillingUtility  ob= new Utility.BillingUtility();
+                        obj.TotalAmount = ob.CalculateBill(obj.Units, obj.OutstandingAmount);
+
+                        obj.BillingDate = DateTime.Now;
+                        num[i] = obj;
+                        a = true;
+                    }
+
+                }
+            }
+            return a;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+public class BillingData
+    {
+        public List<Bill> num { get; set; }
+
+        public BillingData()
+        {
+            num = new List<Bill>();
+        }
+
+        public bool GenerateBill(Bill obj)
+        {
+
+            bool isAdded = false;
+            if (obj == null)
+            {
+                return false;
+            }
+            else
+            {
+                Random ran = new Random();
+                obj.BillingID = ran.Next();
+
+                Utility.BillingUtility obj1 = new Utility.BillingUtility();
+                obj.TotalAmount = obj1.CalculateBill(obj.Units, obj.OutstandingAmount);
+                num.Add(obj);
+                isAdded = true;
+            }
+            return isAdded;
+        }
+
+        public Bill SearchBill(int intBillingID)
+        {
+
+            Bill b = new Bill();
+            b = null;
+            if (intBillingID <= 0)
+            {
+                return null;
+            }
+            else
+            {
+                for (int i = 0; i < num.Count; i++)
+                {
+                    if (num[i].BillingID == intBillingID)
+                    {
+                        b = num[i];
+                    }
+                }
+            }
+            return b;
+
+        }
+
+        public bool UpdateBill(Bill obj)
+        {
+            bool u = false;
+            if (obj == null)
+            {
+                return false;
+            }
+            else
+            {
+                for (int i = 0; i < num.Count; i++)
+                {
+                    if (num[i].BillingID == obj.BillingID)
+                    {
+                        Utility.BillingUtility obj1 = new Utility.BillingUtility();
+                        obj.TotalAmount = obj1.CalculateBill(obj.Units, obj.OutstandingAmount);
+
+                        obj.BillingDate = DateTime.Now;
+                        num[i] = obj;
+                        u = true;
+                    }
+                }
+                return u;
+            }
+        }
+    }
+}
+
+
+*******************************************************************************************
+
+    using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TelephoneBilling.Utility
+{
+    public class BillingUtility
+    {
+        public decimal CalculateBill(int intNumberOfUnits, decimal decOutstandingAmount = 0.0m)
+        {
+            decimal chargeunit = 0;
+            decimal total = 0;
+            try
+            {
+                if (intNumberOfUnits < 0)
+                {
+                    throw new TelephoneBilling.Exceptions.InvalidUnitsException("Invalid units. Billable units should be more than or equal to zero (0).");
+
+                }
+                else
+
+                    if (intNumberOfUnits <= 250)
+                {
+                    chargeunit = 1.50m;
+                }
+
+                else if (intNumberOfUnits >= 251 && intNumberOfUnits <= 500)
+                {
+                    chargeunit = 2.50m;
+                }
+
+                else if (intNumberOfUnits > 500)
+                {
+                    chargeunit = 4.00m;
+                }
+
+                total = (intNumberOfUnits * chargeunit) + 200 + decOutstandingAmount;
+            }
+            catch (TelephoneBilling.Exceptions.InvalidUnitsException a)
+            {
+                throw a;
+            }
+
+            return total;
+
+        }
+    }
+}
 
             
  2.INTERNET BANKING----------------------------------------------------------------------------------
